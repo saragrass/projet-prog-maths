@@ -41,10 +41,10 @@ int main()
   // points << 2, 0, -2, 0, 0, 1, 0, -1, 2*cos(90), sin(90); // un point d'une ellipse : x = a*cos(theta) et y = b*sin(theta) avec a demi grand axe et b demi petit axe
 
   // conic: parabola
-  points << 0, 3, 1, 6, 2, 11, 3, 18, 4, 27; // un point d'une parabole : ax² + bx + c = y, ici a = 1, b = 2 et c = 3
+  // points << 0, 3, 1, 6, 2, 11, 3, 18, 4, 27; // un point d'une parabole : ax² + bx + c = y, ici a = 1, b = 2 et c = 3
 
   // conic: hyperbola
-  // points << 1.5, 0, 1.5, 6, 3, 2, 1, 5, 4.5, 2.8;
+  // points << 1, 3, 2, 1.5, 3, 1, 4, 0.75, 5, 0.6; // un point d'une hyperbole : constante/x = y, ici constante = 3
   
   /*Eigen::VectorXd pt1(2), pt2(2), pt3(2), pt4(2), pt5(2);
   pt1 <<  1.5,  2.0;
