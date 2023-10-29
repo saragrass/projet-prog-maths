@@ -39,6 +39,9 @@ Eigen::VectorXd solveLeastSquares(const Eigen::MatrixXd& A, const std::vector<Ei
   }
 
   Eigen::VectorXd conicCoefficients = AtA.colPivHouseholderQr().solve(Atb); // use QR decomposition
+  // dans le cours
+  /* Eigen::ColPivHouseholderQR<Eigen::MatrixXd> qr(A);
+     Eigen::VectorXd x_qr = qr.solve(b); */
   return conicCoefficients; // return the conic coefficients which minimize the algebraic error for all points
 }
 
@@ -133,6 +136,9 @@ int main()
   // use the SVD to calculate the kernel of A
   Eigen::JacobiSVD<Eigen::MatrixXd> svd(A, Eigen::ComputeThinU | Eigen::ComputeFullV);
   Eigen::VectorXd svdResult = svd.matrixV().rightCols(1);
+  // dans le cours
+  /* Eigen::JacobiSVD<Eigen::MatrixXd> svd(A,Eigen::ComputeThinU | Eigen::ComputeThinV);
+     Eigen::VectorXd x_svd = svd.solve(b);*/
 
   // the coefficients a, b, c, d, e, f of the conic are extarcted from x
   double a = svdResult(0);
