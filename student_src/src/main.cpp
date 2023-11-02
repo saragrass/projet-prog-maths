@@ -31,11 +31,21 @@ double evaluateTrigExpression(const std::string &expression) {
 // Fonction pour résoudre le problème des moindres carrés
 Eigen::VectorXd solveLeastSquares(const Eigen::MatrixXd& A, const std::vector<Eigen::VectorXd>& points) {
   Eigen::MatrixXd AtA = A.transpose() * A;
-  Eigen::VectorXd Atb(6);
-  Atb.setZero();
-
-  for (int i = 0; i < points.size(); i++) {
-    Atb += A.row(i).transpose() * points[i];
+  Eigen::VectorXd Atb = Eigen::VectorXd::Zero(6);
+  //Eigen::VectorXd Atb(6);
+  //Atb.setZero();
+  size_t tailleA = A.rows();
+  if (tailleA == points.size() && A.cols() == 6) {
+    for (size_t i = 0; i < points.size(); i++) {
+      if (points[i].size() == 3) {
+        Atb += A.row(i).transpose() * points[i];
+      } else {
+        std::cerr << "Error: Incorrect dimensions for points[" << i << "]." << std::endl;
+        break;
+      }
+    }
+  } else {
+    std::cerr << "Error: Incorrect dimensions for A." << std::endl;
   }
 
   Eigen::VectorXd conicCoefficients = AtA.colPivHouseholderQr().solve(Atb); // use QR decomposition
@@ -68,7 +78,7 @@ int main()
   std::ifstream file(filename);
 
   if (!file.is_open()) { // verification of the file opening
-    std::cerr << "error : the file cannot be opened." << std::endl;
+    std::cerr << "error: the file cannot be opened." << std::endl;
     return 1;
   }
 
@@ -118,7 +128,7 @@ int main()
   // build the matrice A from the coordinates of the 5 points
   //Eigen::MatrixXd A(5, 6);
   Eigen::MatrixXd A(points.size(), 6);
-  for (int i = 0; i < points.size(); i++) {
+  for (size_t i = 0; i < points.size(); i++) {
     //Eigen::VectorXd pt(3);
     Eigen::VectorXd pt = points[i];
     //double coordinate_x = pt(0);
@@ -130,15 +140,20 @@ int main()
     A.row(i) << pt(0) * pt(0), pt(0) * pt(1), pt(1) * pt(1), pt(0) * pt(2), pt(1) * pt(2), pt(2) * pt(2); // each line of A represents an equation based on the algebraic error for one specific point
   }
 
+
   // draw line
   // viewer.push_line(pt1, pt2-pt1,  200,200,0);
 
   // use the SVD to calculate the kernel of A
-  Eigen::JacobiSVD<Eigen::MatrixXd> svd(A, Eigen::ComputeThinU | Eigen::ComputeFullV);
+  Eigen::JacobiSVD<Eigen::MatrixXd> svd(A, Eigen::ComputeThinU | Eigen::ComputeThinV);
   Eigen::VectorXd svdResult = svd.matrixV().rightCols(1);
   // dans le cours
   /* Eigen::JacobiSVD<Eigen::MatrixXd> svd(A,Eigen::ComputeThinU | Eigen::ComputeThinV);
      Eigen::VectorXd x_svd = svd.solve(b);*/
+
+  if (svdResult.size() != 6) {
+    std::cerr << "Error: Incorrect dimensions for svdResult." << std::endl;
+  }
 
   // the coefficients a, b, c, d, e, f of the conic are extarcted from x
   double a = svdResult(0);
@@ -147,6 +162,11 @@ int main()
   double d = svdResult(3);
   double e = svdResult(4);
   double f = svdResult(5);
+
+  if (std::isnan(a) || std::isnan(b) || std::isnan(c) ||
+    std::isnan(d) || std::isnan(e) || std::isnan(f)) {
+    std::cerr << "Error: svdResult contains NaN values." << std::endl;
+  }
 
   // print the coefficients of the conic
   std::cout << "Coefficients de la conique avec la méthode de la Décomposition en Valeurs Singulières : " << std::endl;
@@ -163,24 +183,33 @@ int main()
   viewer.push_conic(conic, 0,0,200);
 
   // us the least squares method
-  //Eigen::VectorXd conicCoefficients = solveLeastSquares(A, points); // to minimize the sum of the squares of these previous errors for all points
+  Eigen::VectorXd conicCoefficients = solveLeastSquares(A, points); // to minimize the sum of the squares of these previous errors for all points
+
+  if (conicCoefficients.size() != 6) {
+    std::cerr << "Error: Incorrect dimensions for conicCoefficients." << std::endl;
+  }
 
   // the coefficients a, b, c, d, e, f of the conic are extarcted from x
-  /*a = conicCoefficients(0);
+  a = conicCoefficients(0);
   b = conicCoefficients(1);
   c = conicCoefficients(2);
   d = conicCoefficients(3);
   e = conicCoefficients(4);
-  f = conicCoefficients(5);*/
+  f = conicCoefficients(5);
+
+  if (std::isnan(a) || std::isnan(b) || std::isnan(c) ||
+    std::isnan(d) || std::isnan(e) || std::isnan(f)) {
+    std::cerr << "Error: conicCoefficients contains NaN values." << std::endl;
+  }
 
   // print the coefficients of the conic
-  /*std::cout << "Coefficients de la conique avec la méthode des Moindres Carrés : " << std::endl;
+  std::cout << "Coefficients de la conique avec la méthode des Moindres Carrés : " << std::endl;
   std::cout << "a = " << a << std::endl;
   std::cout << "b = " << b << std::endl;
   std::cout << "c = " << c << std::endl;
   std::cout << "d = " << d << std::endl;
   std::cout << "e = " << e << std::endl;
-  std::cout << "f = " << f << std::endl;*/
+  std::cout << "f = " << f << std::endl;
 
   // render
   viewer.display(); // on terminal
