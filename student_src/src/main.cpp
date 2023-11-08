@@ -20,7 +20,7 @@ double evaluateTrigExpression(const std::string &expression) {
     } else {
         // Check if it's a valid double value
         try {
-            return std::stod(expression);
+          return std::stod(expression);
         } catch (const std::invalid_argument& e) { // if letters instad of numbers
           std::cerr << "Invalid value or expression: " << expression << " (if it's the last component, let's change it into 1)" << std::endl; // won't be used?
           return std::numeric_limits<double>::quiet_NaN(); // return NaN for invalid values
@@ -30,29 +30,44 @@ double evaluateTrigExpression(const std::string &expression) {
 
 // Fonction pour résoudre le problème des moindres carrés
 Eigen::VectorXd solveLeastSquares(const Eigen::MatrixXd& A, const std::vector<Eigen::VectorXd>& points) {
-  Eigen::MatrixXd AtA = A.transpose() * A;
+  /* Eigen::MatrixXd AtA = A.transpose() * A;
   Eigen::VectorXd Atb = Eigen::VectorXd::Zero(6);
   //Eigen::VectorXd Atb(6);
   //Atb.setZero();
-  size_t tailleA = A.rows();
-  if (tailleA == points.size() && A.cols() == 6) {
-    for (size_t i = 0; i < points.size(); i++) {
-      if (points[i].size() == 3) {
-        Atb += A.row(i).transpose() * points[i];
-      } else {
-        std::cerr << "Error: Incorrect dimensions for points[" << i << "]." << std::endl;
-        break;
-      }
-    }
-  } else {
-    std::cerr << "Error: Incorrect dimensions for A." << std::endl;
-  }
+  for (size_t i = 0; i < points.size(); i++) {
+    std::cout << "Dimensions de A.row(" << i << "): " << A.row(i).size() << " x " << A.row(i).cols() << std::endl;
+    std::cout << "Dimensions de points[" << i << "]: " << points[i].size() << " x " << points[i].rows() << std::endl;
 
-  Eigen::VectorXd conicCoefficients = AtA.colPivHouseholderQr().solve(Atb); // use QR decomposition
+    if (A.row(i).size() == 6 && points[i].size() == 3) {
+        Atb += A.row(i).transpose() * points[i];
+    } else {
+        std::cerr << "Error: Incorrect dimensions for A or points." << std::endl;
+        break;
+    }
+}
+
+  Eigen::VectorXd conicCoefficients = AtA.colPivHouseholderQr().solve(Atb); // use QR decomposition */
+  Eigen::VectorXd x;
+    // Assurez-vous que les dimensions de A et b sont compatibles.
+    if (A.rows() != points.size()) {
+        std::cerr << "Error: Matrix A and vector b dimensions are not compatible." << std::endl;
+        return x;
+    }
+
+    // Utilisez l'algèbre linéaire pour résoudre le problème des moindres carrés.
+    x = A.jacobiSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(points);
+
+    return x;
+  /*Eigen::VectorXd x;
+    Eigen::MatrixXd AtA = A.transpose() * A;
+    Eigen::VectorXd Atb = A.transpose() * points;
+    x = AtA.ldlt().solve(Atb);
+    return x;*/
   // dans le cours
-  /* Eigen::ColPivHouseholderQR<Eigen::MatrixXd> qr(A);
-     Eigen::VectorXd x_qr = qr.solve(b); */
-  return conicCoefficients; // return the conic coefficients which minimize the algebraic error for all points
+  /*Eigen::ColPivHouseholderQR<Eigen::MatrixXd> qr(A);
+  Eigen::VectorXd x_qr = qr.solve(points);
+  return x_qr;*/
+  // return conicCoefficients; // return the conic coefficients which minimize the algebraic error for all points
 }
 
 int main()
@@ -129,15 +144,16 @@ int main()
   //Eigen::MatrixXd A(5, 6);
   Eigen::MatrixXd A(points.size(), 6);
   for (size_t i = 0; i < points.size(); i++) {
-    //Eigen::VectorXd pt(3);
     Eigen::VectorXd pt = points[i];
-    //double coordinate_x = pt(0);
-    //double coordinate_y = pt(1);
-    //double coordinate_w = pt(2);
-    //pt << coordinate_x, coordinate_y, coordinate_w;
-    viewer.push_point(pt, "p", 200,0,0);
-    //A.row(i) << coordinate_x * coordinate_x, coordinate_x *coordinate_ y, coordinate_y * coordinate_y, coordinate_x * coordinate_w, coordinate_y * coordinate_w, coordinate_w * coordinate_w;
-    A.row(i) << pt(0) * pt(0), pt(0) * pt(1), pt(1) * pt(1), pt(0) * pt(2), pt(1) * pt(2), pt(2) * pt(2); // each line of A represents an equation based on the algebraic error for one specific point
+    A(i, 0) = pt(0) * pt(0);
+    A(i, 1) = pt(0) * pt(1);
+    A(i, 2) = pt(1) * pt(1);
+    A(i, 3) = pt(0) * pt(2);
+    A(i, 4) = pt(1) * pt(2);
+    A(i, 5) = pt(2) * pt(2);
+    // each line of A represents an equation based on the algebraic error for one specific point
+
+    viewer.push_point(pt, "p", 200, 0, 0);
   }
 
 
@@ -145,7 +161,7 @@ int main()
   // viewer.push_line(pt1, pt2-pt1,  200,200,0);
 
   // use the SVD to calculate the kernel of A
-  Eigen::JacobiSVD<Eigen::MatrixXd> svd(A, Eigen::ComputeThinU | Eigen::ComputeThinV);
+  Eigen::JacobiSVD<Eigen::MatrixXd> svd(A, Eigen::ComputeThinU | Eigen::ComputeFullV);
   Eigen::VectorXd svdResult = svd.matrixV().rightCols(1);
   // dans le cours
   /* Eigen::JacobiSVD<Eigen::MatrixXd> svd(A,Eigen::ComputeThinU | Eigen::ComputeThinV);
