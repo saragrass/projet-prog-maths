@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/conic.dir/main.cpp.o CMakeFiles/conic.dir/Geogebra_conics.cpp.o CMakeFiles/conic.dir/Entry.cpp.o CMakeFiles/conic.dir/Directory.cpp.o CMakeFiles/conic.dir/conics.cpp.o -o conic 
