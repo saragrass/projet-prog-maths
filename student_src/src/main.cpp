@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "conics.hpp"
+using namespace MyConics;
 
 // g++ -Wall -O2 -std=c++11 -I /usr/include/eigen3 main.cpp Geogebra_conics.cpp Entry.cpp Directory.cpp conics.cpp -o conics
 
@@ -14,17 +15,9 @@ int main() {
   - points_hyperbola.txt: a point on a hyperbola: constant/x = y, here constant = 3
   - points_hyperbola2.txt: hyperbola with non-aligned points
   */
+  conic.displayConic();
 
-  Eigen::VectorXd conicCoefficients = conic.solveLeastSquares();
-
-  conic.printCoefficients(conicCoefficients);
-
-  Viewer_conic viewer;
-
-  conic.drawConic(conicCoefficients, viewer);
-
-  viewer.display();
-  viewer.render("output.html");
-
+  ConicBundle conicBundle("points_hyperbola2.txt", "points_parabola.txt");
+  conicBundle.displayConicBundle();
   return 0;
 }
