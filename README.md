@@ -10,8 +10,8 @@ $`x^T \times C \times x = 0`$
 <br>$`\Leftrightarrow x^T \times C^T \times x = 0`$ (comme $`C`$ est symétrique, alors elle vérifie la propriété suivante : $`C = C^T`$)
 <br>$`\Leftrightarrow (C \times x)^T \times x = 0`$ (car $`x^T × C^T = (C \times x)^T`$)
 <br>$`\Leftrightarrow (C \times x)^T \times Id \times x = 0`$ (car la matrice $`Id`$ est un élément neutre pour la multiplication)
-<br>$`\Leftrightarrow (C \times x)^T \times C^-1 \times C \times x = 0`$ (en remplaçant $`Id`$ par $`C^-1 \times C`$)
-<br>$`\Leftrightarrow l^T \times C^-1 \times l = 0`$ (en posant : $`l = C \times x`$)
+<br>$`\Leftrightarrow (C \times x)^T \times C^{-1} \times C \times x = 0`$ (en remplaçant $`Id`$ par $`C^{-1} \times C`$)
+<br>$`\Leftrightarrow l^T \times C^{-1} \times l = 0`$ (en posant : $`l = C \times x`$)
 
 ## 3. À réaliser
 
