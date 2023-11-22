@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <Eigen/Dense>
+
 #include "Geogebra_conics.hpp"
 
 namespace MyConics {
@@ -11,13 +12,13 @@ namespace MyConics {
 
             Conic(const std::string& filename); // constructor based on a file containing all the points
 
-            Eigen::VectorXd solveLeastSquares() const;
+            virtual Eigen::VectorXd solveLeastSquares() const;
 
-            void printCoefficients(const Eigen::VectorXd& coefficients) const;
+            virtual void printCoefficients(const Eigen::VectorXd& coefficients) const;
 
-            void drawConic(const Eigen::VectorXd& coefficients, Viewer_conic& viewer, const unsigned int &red = 0, const unsigned int &green = 0, const unsigned int &blue = 200) const;
+            virtual void drawConic(const Eigen::VectorXd& coefficients, Viewer_conic& viewer, const unsigned int &red = 0, const unsigned int &green = 0, const unsigned int &blue = 200) const;
 
-            void displayConic() const;
+            virtual void displayConic() const;
 
         private:
             void readPointsFromFile();
@@ -34,9 +35,9 @@ namespace MyConics {
         public:
             ConicBundle(const std::string& filenameA, const std::string& filenameB);
 
-            Eigen::VectorXd generateConicFromBundle(double t) const;
+            virtual Eigen::VectorXd generateConicFromBundle(double t) const;
 
-            void displayConicBundle(double tStep = 0.1) const;
+            virtual void displayConicBundle(double tStep = 0.1) const;
 
         private:
             Conic conicA_;
