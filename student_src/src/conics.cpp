@@ -1,17 +1,17 @@
 #include <cmath>
 #include <fstream> // std::ifstream
 #include <sstream> // std::istringstream
-#include <iostream>
 
 #include "conics.hpp"
+
 using namespace MyConics;
 
-
 double evaluateTrigExpression(const std::string &expression) {
-    if (expression.find("cos") != std::string::npos) {
+    // check if the expression contains "cos" or "sin"
+    if (expression.find("cos") != std::string::npos) { // if std::string::find doesn't find th expression, it returns std::string::npos
         double angle;
-        sscanf(expression.c_str(), "cos(%lf)", &angle);
-        return std::cos(angle * M_PI / 180.0);
+        sscanf(expression.c_str(), "cos(%lf)", &angle); // "&lf" converts the string into a double
+        return std::cos(angle * M_PI / 180.0); // converts the angle from degrees to radians
     } else if (expression.find("sin") != std::string::npos) {
         double angle;
         sscanf(expression.c_str(), "sin(%lf)", &angle);
@@ -21,17 +21,16 @@ double evaluateTrigExpression(const std::string &expression) {
             return std::stod(expression);
         } catch (const std::invalid_argument& e) {
             std::cerr << "Invalid value or expression: " << expression << " (if it's the last component, let's change it into 1)" << std::endl;
-            return std::numeric_limits<double>::quiet_NaN();
+            return std::numeric_limits<double>::quiet_NaN(); // return NaN instead of an error, it allows to return a value anyway
         }
     }
 }
 
 /////////////////////////////////////////////////// conic
 
-Conic::Conic() {};
+Conic::Conic() {}; // default constructor
 
-Conic::Conic(const std::string& filename) : filename_(filename) { readPointsFromFile();}
-
+Conic::Conic(const std::string& filename) : filename_(filename) { readPointsFromFile();} // constructor with a file containing points
 
 Eigen::VectorXd Conic::solveLeastSquares() const{
     assert(points_.size() >= 5 && "There must be at least 5 points.");
@@ -43,14 +42,15 @@ Eigen::VectorXd Conic::solveLeastSquares() const{
 }
 
 void Conic::readPointsFromFile() {
-    std::ifstream file(filename_);
+    std::ifstream file(filename_); // open the file with the given filename for reading
     try {
         if (!file.is_open()) {
             throw std::runtime_error("Error: the file cannot be opened.");
         }
 
-        std::string line;
-        while (std::getline(file, line)) {
+        std::string line; 
+        // read each line and analyse its content
+        while (std::getline(file, line)) { // read a line from the file and store it in the string 'line'
             analyseLine(line);
         }
     } catch (const std::exception &e) {
@@ -68,6 +68,7 @@ void Conic::analyseLine(const std::string& line) {
     Eigen::VectorXd point(3);
     bool validLine = true;
 
+    // extract values from the line and build a 3D point
     for (int i = 0; i < 3; ++i) {
         if (iss >> token) {
             double value = evaluateTrigExpression(token);
@@ -94,6 +95,7 @@ void Conic::analyseLine(const std::string& line) {
 
 Eigen::MatrixXd Conic::buildMatrixA() const {
     Eigen::MatrixXd A(points_.size(), 6);
+    // fill matrix A based on the points
     for (size_t i = 0; i < points_.size(); i++) {
         Eigen::VectorXd pt = points_[i];
         A(i, 0) = pt(0) * pt(0);
@@ -112,17 +114,6 @@ Eigen::VectorXd Conic::SVDMethod(const Eigen::MatrixXd& A) const {
     return coefficients;
 }
 
-void Conic::drawConic(const Eigen::VectorXd& coefficients, Viewer_conic& viewer, const unsigned int &red, const unsigned int &green, const unsigned int &blue) const {
-    for (size_t i = 0; i < points_.size(); i++) {
-        Eigen::VectorXd pt = points_[i];
-        viewer.push_point(pt, "p", 200, 0, 0);
-    }
-
-    Eigen::VectorXd conic(6);
-    conic << coefficients(0), coefficients(1), coefficients(2), coefficients(3), coefficients(4), coefficients(5);
-    viewer.push_conic(conic, red, green, blue);
-}
-
 void Conic::printCoefficients(const Eigen::VectorXd& coefficients) const {
     std::cout << "Coefficients de la conique avec la méthode des Moindres Carrés : " << std::endl;
     for (int i = 0; i < coefficients.size(); ++i) {
@@ -130,6 +121,18 @@ void Conic::printCoefficients(const Eigen::VectorXd& coefficients) const {
     }
 }
 
+void Conic::drawConic(const Eigen::VectorXd& coefficients, Viewer_conic& viewer, const unsigned int &red, const unsigned int &green, const unsigned int &blue) const {
+    // draw the points in the viewer
+    for (const auto& pt : points_) {
+        viewer.push_point(pt, "p", 200, 0, 0);
+    }
+
+    Eigen::VectorXd conic(6);
+    // fill the conic vector with coefficients
+    conic << coefficients(0), coefficients(1), coefficients(2), coefficients(3), coefficients(4), coefficients(5);
+    // draw the conic in the viewer
+    viewer.push_conic(conic, red, green, blue);
+}
 
 void Conic::displayConic() const {
     Eigen::VectorXd conicCoefficients = solveLeastSquares();
@@ -145,8 +148,6 @@ void Conic::displayConic() const {
 }
 
 /////////////////////////////////////////////////// conic bundle
-
-//ConicBundle::ConicBundle() : conicA_(), conicB_() {};
 
 ConicBundle::ConicBundle(const std::string& filenameA, const std::string& filenameB) : conicA_(filenameA), conicB_(filenameB) {}
 
@@ -175,8 +176,8 @@ void ConicBundle::displayConicBundle(double tStep) const {
 
         // gradiant from red to blue
         unsigned int red = static_cast<int>(255 * (1 - t / M_PI));
-        unsigned int blue = static_cast<int>(255 * (t / M_PI));
         unsigned int green = 0;
+        unsigned int blue = static_cast<int>(255 * (t / M_PI));
 
         drawConic(conicCoefficients, viewer, red, green, blue);
     }
