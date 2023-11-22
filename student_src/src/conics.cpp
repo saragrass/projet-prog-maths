@@ -151,7 +151,6 @@ void Conic::displayConic() const {
 
 ConicBundle::ConicBundle(const std::string& filenameA, const std::string& filenameB) : conicA_(filenameA), conicB_(filenameB) {}
 
-
 Eigen::VectorXd ConicBundle::generateConicFromBundle(double t) const {
     double cosValue = std::cos(t);
     double sinValue = std::sin(t);
