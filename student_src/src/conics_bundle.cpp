@@ -2,13 +2,13 @@
 
 using namespace MyConics;
 
-ConicBundle::ConicBundle(const std::string& filenameA, const std::string& filenameB) : conicA_(filenameA), conicB_(filenameB) {}
+ConicBundle::ConicBundle(const std::string& filenameA, const std::string& filenameB) : m_conicA_(filenameA), m_conicB_(filenameB) {}
 
 Eigen::VectorXd ConicBundle::generateConicFromBundle(double t) const {
     double cosValue = std::cos(t);
     double sinValue = std::sin(t);
 
-    Eigen::VectorXd conic = cosValue * conicA_.solveLeastSquares() + sinValue * conicB_.solveLeastSquares();
+    Eigen::VectorXd conic = cosValue * m_conicA_.solveLeastSquares() + sinValue * m_conicB_.solveLeastSquares();
     
     double norm = conic.norm();
     conic /= norm;
