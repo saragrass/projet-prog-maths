@@ -34,9 +34,9 @@ On a donc un système linéaire à 5 équations (une par tangente). On le résou
 
 2) Voir directement dans le code.
 
-3) Une conique sous forme de paires de droites dans le plan projectif peut être représentée par une équation matricielle particulière. La forme standard d'une conique dans la géométrie projective : $`x^TCx = 0`$ où $`x = (x,y,w)^T`$ est un point homogène, et $`C`$ est la matrice de la conique.
+3) Une conique sous forme de paires de droites dans le plan projectif peut être représentée par une équation matricielle particulière. La forme standard d'une conique dans la géométrie projective : $`x^TCx = 0`$ où $`x = (x,y)^T`$ est un point homogène, et $`C`$ est la matrice de la conique.
 Cependant, pour une conique qui est une paire de droites, la matrice $`C`$ prend une forme spécifique. En particulier, elle peut être décomposée en deux matrices $`C_1`$ et $`C_2`$, chacune représentant une droite : $`C = C_1 + C_2`$.
-Une équation équivalente serait : $`x^{T}C_1x \cdot x^{T}C_2`$.
+Une équation équivalente serait : $`x^{T}C_1x \cdot x^{T}C_2x`$.
 Cela signifie que la conique peut être vue comme l'intersection de deux droites, où $`C_1x = 0`$ et $`C_2x = 0`$.
 
 La construction de cette conique à partir de cinq points peut être réalisée en suivant une procédure similaire à la construction d'une conique ordinaire, mais avec la particularité que les cinq points choisis définissent deux droites plutôt qu'une seule. La matrice $`C`$ résultante est une combinaison linéaire des matrices $`C_1`$ et $`C_2`$ associées à ces deux droites.
