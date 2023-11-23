@@ -28,10 +28,10 @@ double evaluateTrigExpression(const std::string &expression) {
 
 Conic::Conic() {}; // default constructor
 
-Conic::Conic(const std::string& filename) : filename_(filename) { readPointsFromFile();} // constructor with a file containing points
+Conic::Conic(const std::string& filename) : m_filename_(filename) { readPointsFromFile();} // constructor with a file containing points
 
 Eigen::VectorXd Conic::solveLeastSquares() const{
-    assert(points_.size() >= 5 && "There must be at least 5 points.");
+    assert(m_points_.size() >= 5 && "There must be at least 5 points.");
 
     Eigen::MatrixXd A = buildMatrixA();
     Eigen::VectorXd coefficients = SVDMethod(A);
@@ -40,7 +40,7 @@ Eigen::VectorXd Conic::solveLeastSquares() const{
 }
 
 void Conic::readPointsFromFile() {
-    std::ifstream file(filename_); // open the file with the given filename for reading
+    std::ifstream file(m_filename_); // open the file with the given filename for reading
     try {
         if (!file.is_open()) {
             throw std::runtime_error("Error: the file cannot be opened.");
@@ -86,16 +86,16 @@ void Conic::analyseLine(const std::string& line) {
             point(2) = 1.0;
         } else {
             std::cout << "Regular point: (" << point(0) << ", " << point(1) << ", " << point(2) << ")\n";
-            points_.push_back(point);
+            m_points_.push_back(point);
         }
     }
 }
 
 Eigen::MatrixXd Conic::buildMatrixA() const {
-    Eigen::MatrixXd A(points_.size(), 6);
+    Eigen::MatrixXd A(m_points_.size(), 6);
     // fill matrix A based on the points
-    for (size_t i = 0; i < points_.size(); i++) {
-        Eigen::VectorXd pt = points_[i];
+    for (size_t i = 0; i < m_points_.size(); i++) {
+        Eigen::VectorXd pt = m_points_[i];
         A(i, 0) = pt(0) * pt(0);
         A(i, 1) = pt(0) * pt(1);
         A(i, 2) = pt(1) * pt(1);
@@ -121,7 +121,7 @@ void Conic::printCoefficients(const Eigen::VectorXd& coefficients) const {
 
 void Conic::drawConic(const Eigen::VectorXd& coefficients, Viewer_conic& viewer, const unsigned int &red, const unsigned int &green, const unsigned int &blue) const {
     // draw the points in the viewer
-    for (const auto& pt : points_) {
+    for (const auto& pt : m_points_) {
         viewer.push_point(pt, "p", 200, 0, 0);
     }
 
