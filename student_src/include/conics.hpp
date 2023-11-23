@@ -7,6 +7,10 @@
 
 namespace MyConics {
     class Conic {
+        private:
+            std::string m_filename_;
+            std::vector<Eigen::VectorXd> m_points_;
+
         public:
             Conic();
 
@@ -25,22 +29,18 @@ namespace MyConics {
             void analyseLine(const std::string& line);
             Eigen::MatrixXd buildMatrixA() const;
             Eigen::VectorXd SVDMethod(const Eigen::MatrixXd& A) const;
-
-        private:
-            std::string filename_;
-            std::vector<Eigen::VectorXd> points_;
     };
     
     class ConicBundle : public Conic {
+        private:
+            Conic m_conicA_;
+            Conic m_conicB_;
+
         public:
             ConicBundle(const std::string& filenameA, const std::string& filenameB);
 
             virtual Eigen::VectorXd generateConicFromBundle(double t) const;
 
             virtual void displayConicBundle(double tStep = 0.1) const;
-
-        private:
-            Conic conicA_;
-            Conic conicB_;
     };
 }
