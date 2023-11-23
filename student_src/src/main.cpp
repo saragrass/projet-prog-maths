@@ -9,7 +9,7 @@ using namespace MyConics;
 // clang++ -Wall -O2 -std=c++11 -I /usr/include/eigen3 -I include src/main.cpp src/Geogebra_conics.cpp src/Entry.cpp src/Directory.cpp src/conics.cpp src/conics_bundle.cpp -o conics
 
 int main() {
-  Conic conic("points_hyperbola2.txt");
+  Conic conic("../src/points_hyperbola2.txt");
   /*name of the file were are defined the coordinates of the 5 points (xi, yi), you can choose between:
   - points_circle.txt: a point on the unit circle: x = cos(theta) and y = sin(theta)
   - points_ellipse.txt: a point on an ellipse: x = a*cos(theta) and y = b*sin(theta) with a = semi-major axe and b = semi-minor axe
@@ -19,7 +19,7 @@ int main() {
   */
   conic.displayConic();
 
-  ConicBundle conicBundle("points_hyperbola2.txt", "points_parabola.txt");
+  ConicBundle conicBundle("../src/points_hyperbola2.txt", "../src/points_parabola.txt");
   conicBundle.displayConicBundle();
   return 0;
 }
