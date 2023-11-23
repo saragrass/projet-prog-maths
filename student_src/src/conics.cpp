@@ -175,7 +175,7 @@ void ConicBundle::displayConicBundle(double tStep) const {
 
         // gradiant from red to blue
         unsigned int red = static_cast<int>(255 * (1 - t / M_PI));
-        unsigned int green = 0;
+        unsigned int green = static_cast<int>(255 * 0.5 * (1 + std::sin(t - M_PI / 6.0)));
         unsigned int blue = static_cast<int>(255 * (t / M_PI));
 
         drawConic(conicCoefficients, viewer, red, green, blue);
