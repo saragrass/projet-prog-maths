@@ -27,10 +27,8 @@ double evaluateTrigExpression(const std::string &expression) {
 }
 
 Conic::Conic() {}; // default constructor
-
 Conic::Conic(const std::string& filename) : m_filename_(filename) { readPointsFromFile();} // constructor with a file containing points
-
-Conic::~Conic() {}; // destructor
+Conic::~Conic() {}; // destructpr
 
 Eigen::VectorXd Conic::solveLeastSquares() const{
     assert(m_points_.size() >= 5 && "There must be at least 5 points.");
