@@ -1,0 +1,3 @@
+/mnt/c/Sara/IMAC/Cours IMAC/Projet Prog Objet/student_src/student_src/build/CMakeFiles/conic.dir
+/mnt/c/Sara/IMAC/Cours IMAC/Projet Prog Objet/student_src/student_src/build/CMakeFiles/edit_cache.dir
+/mnt/c/Sara/IMAC/Cours IMAC/Projet Prog Objet/student_src/student_src/build/CMakeFiles/rebuild_cache.dir
