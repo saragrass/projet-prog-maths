@@ -4,6 +4,9 @@ cmake_minimum_required(VERSION 3.15)
 # give a name to the project
 project(conic LANGUAGES C CXX)
 
+# include
+include_directories(include)
+
 # include Eigen
 find_package(Eigen3 REQUIRED)
 if(${EIGEN3_FOUND})
@@ -18,7 +21,7 @@ endif()
 
 
 # files to compile
-add_executable(conic src/main.cpp src/Geogebra_conics.cpp src/Geogebra_conics.hpp src/Entry.cpp src/Entry.hpp src/Directory.cpp src/Directory.hpp)
+add_executable(conic src/main.cpp src/Geogebra_conics.cpp include/Geogebra_conics.hpp src/Entry.cpp include/Entry.hpp src/Directory.cpp include/Directory.hpp src/conics.cpp include/conics.hpp src/conics_bundle.cpp)
 
 # compilation options
 target_compile_features(conic PRIVATE cxx_std_11) # use at least c++ 11
