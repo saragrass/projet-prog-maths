@@ -17,9 +17,9 @@ $`x^T \times C \times x = 0`$
 
 ### 3.1 Mathématiques avancées
 
-1) D'après le <b>2.4 Coniques</b>, une droite $`l`$ est tangente à la conique $`C`$ ssi : $`l^TC^{-1}l = 0`$. Cette tangente passe par le point $`x\inC`$ : $`l = Cx`$ (avec $`x = (x, y, w)^T`$).
+1) D'après le <b>2.4 Coniques</b>, une droite $`l`$ est tangente à la conique $`C`$ ssi : $`l^TC^{-1}l = 0`$. Cette tangente passe par le point $`x \in C`$ : $`l = Cx`$ (avec $`x = (x, y, w)^T`$).
 On connait 5 tangentes à la conique, donc il y a 5 équations de ce type dont on connait les $`l_i`$ (avec $`i\in[1,5]`$) et il y a 5 points de contrôle connus (ici ce sont points de contact entre les différentes tangentes et la conique).
-De plus, comme on sait que les droites $`l_i`$ sont tangentes à la conique, elles vérifient : $`l_{i}^{T}C^{-1}l = 0`$. On remplace ensuite les $`l_{i}`$ par $`C*x_{i}`$.
+De plus, comme on sait que les droites $`l_i`$ sont tangentes à la conique, elles vérifient : $`l_{i}^{T}C^{-1}l = 0`$. On remplace ensuite les $`l_{i}`$ par $`Cx_{i}`$.
 On a : $`(Cx_{i})^T \times C^{-1} \times Cx_{i} = 0`$.
 On a donc un système linéaire à 5 équations (une par tangente). On le résout avec la méthode des moindres carrés et on trouve les coefficients $`a`$, $`b`$, $`c`$, $`d`$, $`e`$ et $`f`$ permettant de tracer la conique :
 $`C = \begin{bmatrix} a & b/2 & d/2 \\ b/2 & c & e/2 \\ d/2 & e/2 & f \end{bmatrix}`$.
