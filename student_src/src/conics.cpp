@@ -137,7 +137,7 @@ void Conic::displayConic() const {
 
     printCoefficients(conicCoefficients);
 
-    Viewer_conic viewer;a
+    Viewer_conic viewer;
 
     drawConic(conicCoefficients, viewer);
 
