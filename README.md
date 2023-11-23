@@ -17,7 +17,7 @@ $`x^T \times C \times x = 0`$
 
 ### 3.1 Mathématiques avancées
 
-1) D'après le <b>2.4 Coniques</b>, une droite $`l`$ est tangente à la conique $`C`$ ssi : $`l^TC^{-1}l = 0`$. Cette tangente passe par le point $`x \in C`$ : $`l = Cx`$ (avec $`x = (x, y, w)^T`$).
+1) D'après le <b>2.4 Coniques</b>, une droite $`l`$ est tangente à la conique $`C`$ ssi : $`l^TC^{-1}l = 0`$. Cette tangente passe par le point $`x \in C`$ : $`l = Cx`$ (avec $`x = (x, y)^T`$).
 
 On connait 5 tangentes à la conique, donc il y a 5 équations de ce type dont on connait les $`l_i`$ (avec $`i\in[1,5]`$) et il y a 5 points de contrôle connus (ici ce sont points de contact entre les différentes tangentes et la conique). Une conique peut être définie par un ensemble de 5 points de contrôle $`\left \{ x_i \right \}_{i \in 1...5}`$ satisfaisant l'équation : $`\begin{pmatrix}
 x_{1}^{2} & x_{1}y_{1} & y_{1}^{2} & x_{1} & y_{1} & 1 \\ 
