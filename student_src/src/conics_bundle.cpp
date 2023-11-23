@@ -2,11 +2,9 @@
 
 using namespace MyConics;
 
-ConicBundle::ConicBundle();
-
-ConicBundle::ConicBundle(const std::string& filenameA, const std::string& filenameB) :
-
-ConicBundle::~ConicBundle() {}; // destructor
+ConicBundle::ConicBundle() {};
+ConicBundle::ConicBundle(const std::string& filenameA, const std::string& filenameB) : m_conicA_(filenameA), m_conicB_(filenameB) {}
+ConicBundle::~ConicBundle() {};
 
 Eigen::VectorXd ConicBundle::generateConicFromBundle(double t) const {
     double cosValue = std::cos(t);
