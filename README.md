@@ -17,27 +17,12 @@ $`x^T \times C \times x = 0`$
 
 ### 3.1 Mathématiques avancées
 
-1) L'équation générale d'une conique est : $`ax^2 + bxy + cy^2 + dx + ey + f = 0`$.
-L'équation d'une fonction affine (donc ici d'une tangente à la conique) est : $`Ax + B = y`$.
-On connait 5 tangentes à la conique, donc il y a 5 équations de ce type connues (A et B sont donnés).
-Prenons l'exemple d'une de ces tangentes.
-Soit $`M(x,y)`$ le point de tangence entre celle-ci et la conique.
-$`M`$ appartient à la tangente et à la conique, donc ses coordonnées vérifient l'égalité : $`Ax - y + B = ax^2 + bxy + cy^2 + dx + ey + f`$. Les données sont $`A`$, $`B`$, $`a`$, $`b`$, $`c`$, $`d`$, $`e`$, $`f`$.
-$`Ax - y + B = ax^2 + bxy + cy^2 + dx + ey + f
-\Leftrightarrow ax^2 + bxy + cy^2 + (d - A)x + (e + 1)y + (f - B)\times1 = 0
-\Leftrightarrow \bigl(\begin{smallmatrix} x^2 & xy & y^2 & x & y & 1 \end{smallmatrix}\bigr) \begin{pmatrix} a\\ b\\ c\\ d - A\\ e + 1\\ f - B\end{pmatrix} = 0`$
-qui se généralise sur les points de tangence de chaque tangente à la conique par le système linéaire suivant :
-\begin{pmatrix}
-x_{1}^{2} & x_{1}y_{1} & y_{1}^{2} & x_{1} & y_{1} & 1 \\ 
-x_{2}^{2} & x_{2}y_{2} & y_{2}^{2} & x_{2} & y_{2} & 1 \\
-\vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\ 
-x_{n}^{2} & x_{n}y_{n} & y_{n}^{2} & x_{n} & y_{n} & 1 \\
-\end{pmatrix}
-\begin{pmatrix} a\\ b\\ c\\ d - A\\ e + 1\\ f - B \end{pmatrix}
-= \begin{pmatrix} 0 \\ 0 \\ \vdots \\ 0 \end{pmatrix}
-Il suffit ensuite de calculer ce produit matricielle et de tracer la conique.
-
-Les tangentes à une conique sont perpendiculaires au rayon passant par le centre. Avec cinq tangentes, on obtient cinq points d'intersection sur la conique. En déterminant le centre, les vecteurs du centre aux points d'intersection, perpendiculaires aux tangentes, sont formés. En créant des paires de tangentes, on trouve les points d'intersection correspondants. Ces points définissent la conique en résolvant le système d'équations adéquat.
+1) D'après le <b>2.4 Coniques</b>, une droite $`l`$ est tangente à la conique $`C`$ ssi : $`l^TC^{-1}l = 0`$. Cette tangente passe par le point $`x\inC`$ : $`l = Cx`$ (avec $`x = (x, y, w)^T`$).
+On connait 5 tangentes à la conique, donc il y a 5 équations de ce type dont on connait les $`l_i`$ (avec $`i\in[1,5]`$) et il y a 5 points de contrôle connus (ici ce sont points de contact entre les différentes tangentes et la conique).
+De plus, comme on sait que les droites $`l_i`$ sont tangentes à la conique, elles vérifient : $`l_{i}^{T}C^{-1}l = 0`$. On remplace ensuite les $`l_{i}`$ par $`C*x_{i}`$.
+On a : $`(Cx_{i})^T \times C^{-1} \times Cx_{i} = 0`$.
+On a donc un système linéaire à 5 équations (une par tangente). On le résout avec la méthode des moindres carrés et on trouve les coefficients $`a`$, $`b`$, $`c`$, $`d`$, $`e`$ et $`f`$ permettant de tracer la conique :
+$`C = \begin{bmatrix} a & b/2 & d/2 \\ b/2 & c & e/2 \\ d/2 & e/2 & f \end{bmatrix}`$.
 
 3) Voir directement dans le code.
 
