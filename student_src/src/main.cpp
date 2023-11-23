@@ -5,8 +5,8 @@
 
 using namespace MyConics;
 
-// g++ -Wall -O2 -std=c++11 -I /usr/include/eigen3 -I include src/main.cpp src/Geogebra_conics.cpp src/Entry.cpp src/Directory.cpp src/conics.cpp -o conics
-// clang++ -Wall -O2 -std=c++11 -I /usr/include/eigen3 -I include src/main.cpp src/Geogebra_conics.cpp src/Entry.cpp src/Directory.cpp src/conics.cpp -o conics
+// g++ -Wall -O2 -std=c++11 -I /usr/include/eigen3 -I include src/main.cpp src/Geogebra_conics.cpp src/Entry.cpp src/Directory.cpp src/conics.cpp src/conics_bundle.cpp -o conics
+// clang++ -Wall -O2 -std=c++11 -I /usr/include/eigen3 -I include src/main.cpp src/Geogebra_conics.cpp src/Entry.cpp src/Directory.cpp src/conics.cpp src/conics_bundle.cpp -o conics
 
 int main() {
   Conic conic("points_hyperbola2.txt");
